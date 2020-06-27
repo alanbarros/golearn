@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  dev-fullcycle-learning-database:
+    image: postgres:9.5
+    container_name: fullcycle
+    restart: always
+    environment:  
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - learning-network
+
+volumes:
+  pgservers:
+  pgdata:
+  
+networks:
+  learning-network:
