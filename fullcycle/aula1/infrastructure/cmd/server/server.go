@@ -4,28 +4,28 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/alanbarros/golearn/fullcycle/aula1/application/usecases"
+
 	"github.com/alanbarros/golearn/fullcycle/aula1/application/repositories"
 	"github.com/alanbarros/golearn/fullcycle/aula1/domain"
-	"github.com/alanbarros/golearn/fullcycle/aula1/infrastructure/database"
 	_ "github.com/lib/pq"
 )
 
 func main() {
 
-	db := database.ConnectDB()
-
-	user := domain.User{
-		Name:     "Alan",
-		Email:    "alan@barros.com",
-		Password: "123",
-	}
-
-	userRepo := repositories.UserRepositoryDb{Db: db}
-	result, err := userRepo.Insert(&user)
+	user, err := domain.NewUser("Alan", "alan@alan1.com", "12345")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(result)
+	useCase := usecases.UserUseCase{UserRepository: repositories.NewRepositoryDb()}
+
+	err = useCase.Create(user)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Inserted:", user.Name, user.Email)
 }

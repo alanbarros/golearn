@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/alanbarros/golearn/fullcycle/aula1/domain"
+	"github.com/alanbarros/golearn/fullcycle/aula1/infrastructure/database"
 	"github.com/jinzhu/gorm"
 )
 
@@ -15,6 +16,14 @@ type UserRepository interface {
 // UserRepositoryDb implements UserRepository
 type UserRepositoryDb struct {
 	Db *gorm.DB
+}
+
+// NewRepositoryDb create a new instance of UserRepositoryDb
+func NewRepositoryDb() *UserRepositoryDb {
+
+	db := database.ConnectDB()
+
+	return &UserRepositoryDb{Db: db}
 }
 
 // Insert try Create a user into database
